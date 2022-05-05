@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import se_project.entity.Authorities;
 import se_project.entity.Course;
 import se_project.entity.Instructor;
 import se_project.entity.StudentRegistration;
+import se_project.service.AuthoritiesService;
 import se_project.service.CourseService;
 import se_project.service.InstructorService;
 import se_project.service.StudentRegistrationService;
@@ -28,8 +30,12 @@ public class LoginController {
 	@Autowired
 	private InstructorService instructorService;
 	
-	public LoginController(InstructorService theInstructorService) {
+	@Autowired
+	private AuthoritiesService authoritiesService;
+	
+	public LoginController(InstructorService theInstructorService, AuthoritiesService theAuthoritiesService) {
 		instructorService = theInstructorService;
+		authoritiesService = theAuthoritiesService;
 	}
 	
 	@GetMapping("/login")    
@@ -38,7 +44,8 @@ public class LoginController {
 	}
 	
 	@GetMapping("/register")
-	public String register(Model model) {		
+	public String register(Model model) {	
+		System.out.println("AAAA");
 		model.addAttribute("instructor", new Instructor());
 	    return "register";
 	}
@@ -51,9 +58,14 @@ public class LoginController {
 	
 	@PostMapping("/postRegister")
 	public String postRegister(@ModelAttribute("instructor")Instructor instructor, Model model) {
+		Authorities authority = new Authorities();
 	    String encodedPassword  = passwordEncoder.encode(instructor.getPassword());
 	    instructor.setPassword(encodedPassword);
+	    instructor.setEnabled(true);
 	    instructorService.save(instructor);
+	    authority.setUsername(instructor.getUsername());
+	    authority.setAuthority("INSTRUCTOR");
+	    authoritiesService.save(authority);
 	    return "redirect:/login";
 	}
 

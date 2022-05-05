@@ -34,7 +34,7 @@ public class EmployeeApplicationSecurityConfig extends WebSecurityConfigurerAdap
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests() 
-		  .antMatchers("/login*", "/register*")
+		  .antMatchers("/login*", "/register*", "postLogin*", "/postRegister*")
 		  .permitAll()
 		.and()
 		  .authorizeRequests()

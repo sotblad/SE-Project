@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+<title>Edit student</title>
+
+</head>
+<body>
+
+
+<div class="container">
+    <h1>Edit student</h1>
+    <br>
+    <br>
+    <hr> 
+    
+    <form action="#" th:action="@{updateStudent}" method="post" th:object="${student}" >
+    	
+    	<input type="hidden" class="form-control" th:field="*{id}" value="${student.id}"/>
+    	<input type="hidden" class="form-control" th:field="*{courseId}" value="${student.courseId}"/>
+    	<input type="hidden" class="form-control" th:field="*{grade}" value="${student.grade}"/>
+    	<input type="hidden" class="form-control" th:field="*{projectGrade}" value="${student.projectGrade}"/>
+    	<input type="hidden" class="form-control" th:field="*{examGrade}" value="${student.examGrade}"/>
+    	
+    	
+        <div class="mb4">
+        <label class="form-label">Student ID:</label>
+        <input type="text" class="form-control" th:field="*{studentId}" value="${student.studentId}"/><br/>
+ 		</div>
+ 		
+ 		<div class="mb4">
+        <label class="form-label">Name:</label>
+        <input type="text" class="form-control" th:field="*{name}" value="${student.name}"/><br/>
+		</div>
+		
+		<div class="mb4">
+        <label class="form-label">Year of registration:</label>
+        <input type="number" class="form-control" th:field="*{yearOfRegistration}" value="${student.yearOfRegistration}" min="0"/><br/>
+ 		</div>
+ 		
+ 		<div class="mb4">
+        <label class="form-label">Semester:</label>
+        <input type="number" class="form-control" th:field="*{semester}" value="${student.semester}" min="0"/><br/>
+ 		</div>
+		
+		
+        <br/>
+ 
+        <button class="btn btn-primary" type="submit" name="soft">Soft update</button>
+        <button class="btn btn-danger btn-primary" type="submit" name="hard">Hard update</button>   
+    
+    
+    </form>
+</div>
+
+
+</body>
+</html>

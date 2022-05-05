@@ -27,6 +27,19 @@
 	<div class="courseInfo">
 		<div style="margin-left:30px">
 			<br>
+		    <div style="float:right;">
+			    <table border=1 frame=void rules=columns>
+				  <tr>
+				    <th>Exam</th>
+				    <th>Project</th>
+				  </tr>
+				  <tr>
+				    <td th:text="${course.examWeight} + '%'"></td>
+				    <td th:text="${course.projectWeight} + '%'"></td>
+				  </tr>
+				</table>
+				<a class="btn btn-success" th:href="@{editWeights(course=${course.id})}"  role="button"><i class="fa fa-balance-scale"> Edit Weights</i></a>
+			</div>
 		    <h6 th:text="'Year ' + ${course.year} + ', Semester ' + ${course.Semester}" style="color: #7f7d7d;"></h6>
 		    <h2 th:text="${course.name} + ', '"></h2>
 		    <i th:text="'by ' + ${course.instructor}" style="margin-left:20px"></i>
@@ -42,7 +55,7 @@
     <table class="table table-striped table-bordered">
             <thead class="thead-dark">
                 <tr>
-                    <th>ID</th>
+                    <th>St. ID</th>
                     <th>Name</th>
                     <th>Registration Year</th>
                     <th>Semester</th>
@@ -50,18 +63,20 @@
                     <th></th>
                 </tr>
             </thead>
-             <tbody>
+             <tbody>             	
+             	<a class="btn btn-info" style="float:right;" th:href="@{calculateGrades(course=${course.id})}"  role="button"><i class="fa fa-calculator"> Calculate Grades</i></a>
                 <tr th:each="student: ${students}">
-                    <td th:text="${student.id}">ID</td>
+                    <td th:text="${student.studentId}">ID</td>
                     <td th:text="${student.name}">Name</td>
                     <td th:text="${student.yearOfRegistration}">Registration Year</td>
                     <td th:text="${student.semester}">Semester</td>
                     <td th:text="${student.grade}">Semester</td>
                     <td>
-                    <form action="#" th:action="@{deleteStudent(course=${course.id},student=${student.id})}" method="post" style="display: inline-block;">
-	                    	<button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    <form action="#" th:action="@{removeStudent(course=${course.id},student=${student.studentId})}" method="post" style="display: inline-block;">
+	                    	<button class="btn btn-danger"><i class="fa fa-trash"> Delete</i></button>
 	                </form>
-	                <a class="btn btn-info" th:href="@{updateStudent(course=${course.id})}"  role="button"><i class="fa fa-external-link"></i></a>
+	                <a class="btn btn-info" th:href="@{editStudent(course=${course.id},student=${student.studentId})}"  role="button"><i class="fa fa-external-link"> Edit Student</i></a>
+	                <a class="btn btn-success" th:href="@{editGrades(course=${course.id},student=${student.studentId})}"  role="button"><i class="fa fa-taxi"> Edit Grades</i></a>
 	                </td>
 	                
                 </tr>

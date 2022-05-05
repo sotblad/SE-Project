@@ -7,7 +7,7 @@
    <!-- Bootstrap CSS -->
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
-<title>Add course</title>
+<title>Add student</title>
 
 </head>
 <body>
@@ -22,7 +22,7 @@
     <form action="#" th:action="@{postStudent(courseId=${courseId})}" method="post" th:object="${student}">
     	<div class="mb4">
         <label class="form-label">Student ID:</label>
-        <input type="text" class="form-control" th:field="*{id}" placeholder="Student ID"/><br/>
+        <input type="number" class="form-control" th:field="*{studentId}" placeholder="Student ID" min="0"/><br/>
  		</div>
     	
         <div class="mb4">
@@ -32,12 +32,12 @@
 
  		<div class="mb4">
         <label class="form-label">Year of registration:</label>
-        <input type="text" class="form-control" th:field="*{yearOfRegistration}" placeholder="Year of registration"/><br/>
+        <input type="number" class="form-control" th:field="*{yearOfRegistration}" placeholder="Year of registration" min="0"/><br/>
 		</div>
 		
 		<div class="mb4">
         <label class="form-label">Semester:</label>
-        <input type="text" class="form-control" th:field="*{semester}" placeholder="Semester"/><br/>
+        <input type="number" class="form-control" th:field="*{semester}" placeholder="Semester" min="0"/><br/>
  		</div>
 		
 		

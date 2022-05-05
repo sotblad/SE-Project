@@ -9,15 +9,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import se_project.entity.Course;
+import se_project.entity.Instructor;
 import se_project.entity.StudentRegistration;
 import se_project.service.CourseService;
+import se_project.service.InstructorService;
 import se_project.service.StudentRegistrationService;
 
 @Controller
 public class UIController {
+	
+	@Autowired
+	private InstructorService instructorService;
 
 	@Autowired
 	private CourseService courseService;
@@ -25,19 +31,22 @@ public class UIController {
 	@Autowired
 	private StudentRegistrationService studentRegistrationService;
 	
-	public UIController(StudentRegistrationService theStudentRegistrationService, CourseService theCourseService) {
+	public UIController(StudentRegistrationService theStudentRegistrationService, CourseService theCourseService, InstructorService theInstructorService) {
 		courseService = theCourseService;
+		instructorService = theInstructorService;
 	}
 	
 	@GetMapping("")
 	public String dashboard(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Instructor instructor = instructorService.findByUsername(authentication.getName());
 		
-	    model.addAttribute("instructor", authentication.getName());
+	    model.addAttribute("instructor", instructor.getFullname());
 
 	    return "dashboard/dashboard";
 	}
 
+	// US2
 	@GetMapping("/myCourses")
 	public String myCourses(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -49,6 +58,7 @@ public class UIController {
 	    return "dashboard/coursesList";
 	}
 	
+	//US3 -- TODO id?
 	@GetMapping("/addCourse")
 	public String addCourse(Model model) {
 		Course course = new Course();
@@ -68,6 +78,7 @@ public class UIController {
 	    return "redirect:myCourses";
 	}
 	
+	//US4
 	@PostMapping("/deleteCourse")
 	public String deleteCourse(@ModelAttribute("course")int courseId, Model model) {
 		
@@ -76,33 +87,33 @@ public class UIController {
 	    return "redirect:myCourses";
 	}
 	
-	@GetMapping("/calculateGrades")
-	public String calculateGrades(@ModelAttribute("course")int courseId, Model model) {
-		double examWeight = 0.7; // set to weight apo front end -> field sto course?
-		double projectWeight = 1-examWeight;
-		List<StudentRegistration> studentsList = studentRegistrationService.findByCourseId(courseId);
-		
-		for(int i = 0; i < studentsList.size(); i++) {
-			double examGrade = studentsList.get(i).getExamGrade();
-			double projectGrade = studentsList.get(i).getProjectGrade();
-			double grade = examGrade*examWeight + projectGrade*projectWeight;
+	//US5
+	@GetMapping("/editCourse")
+	public String editCourse(@ModelAttribute("course") int courseId, Model model) {
+		Course course = courseService.findById(courseId);
 
-			studentsList.get(i).setGrade(grade);
-			studentRegistrationService.save(studentsList.get(i));
-		}
-
-	    return "redirect:myCourses";
+		model.addAttribute("course",course);
+		return "dashboard/editCourse";
 	}
 	
+	@PostMapping("/updateCourse")
+	public String updateCourse(@ModelAttribute("course")Course course, Model model) {
+		courseService.save(course);
+		return "redirect:/myCourses";
+	}
+	
+	//US6
 	@GetMapping("/viewCourse")
 	public String viewCourse(@ModelAttribute("course")int courseId, Model model) {
 		Course course = courseService.findById(courseId);
-		List<StudentRegistration>  students = studentRegistrationService.findByCourseId(courseId);
+		List<StudentRegistration> students = studentRegistrationService.findByCourseId(courseId);
 		model.addAttribute("course",course);
 		model.addAttribute("students",students);
 	    return "dashboard/viewCourse";
 	}
 	
+	
+	//US7
 	@GetMapping("/addStudent")
 	public String addStudent(@ModelAttribute("course")int courseId, Model model) {
 		StudentRegistration student = new StudentRegistration();
@@ -113,31 +124,111 @@ public class UIController {
 	}
 	
 	@PostMapping("/postStudent")
-	public String postStudent(@ModelAttribute("student")StudentRegistration student, Model model) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		System.out.println(student.toString());
-		studentRegistrationService.save(student);
-		System.out.println(model);
+	public String postStudent(@ModelAttribute("student")StudentRegistration studentRegistration, Model model) {
+		int registrationId = studentRegistration.getStudentId();
 		
-		List<StudentRegistration> studentsList = studentRegistrationService.findByCourseId(student.getCourseId());
+		List<StudentRegistration> studentsList = studentRegistrationService.findByCourseId(studentRegistration.getCourseId());
+		for(StudentRegistration i : studentsList){
+			if(i.getStudentId() == registrationId || registrationId < 0)
+				return "error";
+		}
+
+		studentRegistrationService.save(studentRegistration);
 		
-	    return "redirect:/dashboard/viewCourse?course="+student.getCourseId();
+	    return "redirect:/viewCourse?course="+studentRegistration.getCourseId();
 	}
 	
+	//US8
+	@PostMapping("/removeStudent")
+	public String removeStudent(@ModelAttribute("student")int studentId, @ModelAttribute("course")int courseId, Model model) {
+			
+		StudentRegistration result = studentRegistrationService.findByStudentIdAndCourseId(studentId, courseId);
+		studentRegistrationService.deleteById(result.getId());
+
+		return "redirect:/viewCourse?course="+courseId;
+	}
+	
+	//US9
+	@GetMapping("/editStudent")
+	public String editStudent(@ModelAttribute("student") int studentId, @ModelAttribute("course") int courseId, Model model) {
+		StudentRegistration student = studentRegistrationService.findByStudentIdAndCourseId(studentId, courseId);
+
+		model.addAttribute("student", student);
+		return "dashboard/editStudent";
+	}
+	
+	
 	@PostMapping("/updateStudent")
-	public String updateStudent(@ModelAttribute("course")Course course, Model model) {
-		System.out.println(course.toString());
-		Course tempCourse = courseService.findById(course.getId());
-		tempCourse.setName(course.getName());
-		tempCourse.setSyllabus(course.getSyllabus());
-		tempCourse.setYear(course.getYear());
-		tempCourse.setSemester(course.getSemester());
-		courseService.save(tempCourse);
+	public String updateStudent(@ModelAttribute("student")StudentRegistration student, @RequestParam(required=false, value = "soft") String soft, Model model) {
+		if(soft != null) {
+			studentRegistrationService.save(student);
+			return "redirect:/viewCourse?course="+student.getCourseId(); 
+		}
 		
+		List<StudentRegistration> result = studentRegistrationService.findByStudentId(student.getStudentId());
+		
+		for(StudentRegistration i : result) {
+			i.setStudentId(student.getStudentId());
+			i.setName(student.getName());
+			i.setYearOfRegistration(student.getYearOfRegistration());
+			i.setSemester(student.getSemester());
+			studentRegistrationService.save(i);
+		}
 		
 	    return "redirect:myCourses";
 	}
 	
+	//US10
+	@GetMapping("/editGrades")
+	public String editGrades(@ModelAttribute("student") int studentId, @ModelAttribute("course") int courseId, Model model) {
+		StudentRegistration student = studentRegistrationService.findByStudentIdAndCourseId(studentId, courseId);
+
+		model.addAttribute("student", student);
+		return "dashboard/editGrades";
+	}
+	
+	@PostMapping("/updateGrades")
+	public String updateGrades(@ModelAttribute("student")StudentRegistration student, Model model) {
+		studentRegistrationService.save(student);
+		
+		return "redirect:/viewCourse?course="+student.getCourseId(); 
+	}
+	
+	//US10
+	@GetMapping("/editWeights")
+	public String editWeights(@ModelAttribute("course") int courseId, Model model) {
+		Course course = courseService.findById(courseId);
+
+		model.addAttribute("course", course);
+		return "dashboard/editWeights";
+	}
+	
+	@PostMapping("/updateWeights")
+	public String updateWeights(@ModelAttribute("course")Course course, Model model) {
+		courseService.save(course);
+		
+		return "redirect:/viewCourse?course="+course.getId(); 
+	}
+	
+	@GetMapping("/calculateGrades")
+	public String calculateGrades(@ModelAttribute("course")int courseId, Model model) {
+		Course course = courseService.findById(courseId);
+		double examWeight = course.getExamWeight()/100; // set to weight apo front end -> field sto course?
+		double projectWeight = course.getProjectWeight()/100;
+		List<StudentRegistration> studentsList = studentRegistrationService.findByCourseId(courseId);
+		System.out.println(studentsList);
+		for(int i = 0; i < studentsList.size(); i++) {
+			double examGrade = studentsList.get(i).getExamGrade();
+			double projectGrade = studentsList.get(i).getProjectGrade();
+			double grade = examGrade*examWeight + projectGrade*projectWeight;
+
+			studentsList.get(i).setGrade(grade);
+			System.out.println(grade);
+			studentRegistrationService.save(studentsList.get(i));
+		}
+
+		return "redirect:/viewCourse?course="+course.getId(); 
+	}
 	
 	
 	

@@ -9,5 +9,7 @@ import se_project.entity.Instructor;
 public interface InstructorDAO extends JpaRepository<Instructor, Integer> {
 	
 	public Instructor findById(int theId);
+	
+	public Instructor findByUsername(String theUsername);
 		
 }

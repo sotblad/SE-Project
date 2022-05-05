@@ -29,18 +29,27 @@ public class Course {
 	
 	@Column(name="semester")
 	private int semester;
+	
+	@Column(name="exam_weight")
+	private double examWeight;
+	
+	@Column(name="project_weight")
+	private double projectWeight;
 
 	public Course() {
 		
 	}
 
-	public Course(String name, String instructor, String syllabus, int year, int semester) {
+	public Course(String name, String instructor, String syllabus, int year, int semester, double examWeight,
+			double projectWeight) {
 		super();
 		this.name = name;
 		this.instructor = instructor;
 		this.syllabus = syllabus;
 		this.year = year;
 		this.semester = semester;
+		this.examWeight = examWeight;
+		this.projectWeight = projectWeight;
 	}
 
 	public int getId() {
@@ -91,13 +100,28 @@ public class Course {
 		this.semester = semester;
 	}
 
+	public double getExamWeight() {
+		return examWeight;
+	}
+
+	public void setExamWeight(double examWeight) {
+		this.examWeight = examWeight;
+	}
+
+	public double getProjectWeight() {
+		return projectWeight;
+	}
+
+	public void setProjectWeight(double projectWeight) {
+		this.projectWeight = projectWeight;
+	}
+
 	@Override
 	public String toString() {
 		return "Course [id=" + id + ", name=" + name + ", instructor=" + instructor + ", syllabus=" + syllabus
-				+ ", year=" + year + ", semester=" + semester + "]";
-	}
-	
-	
+				+ ", year=" + year + ", semester=" + semester + ", examWeight=" + examWeight + ", projectWeight="
+				+ projectWeight + "]";
+	}	
 		
 }
 

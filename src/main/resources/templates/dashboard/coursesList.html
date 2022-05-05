@@ -40,7 +40,7 @@
                     <td th:text="${course.semester}">Semester</td>
                     <td style="width:165px;">
 	                    <a class="btn btn-info" th:href="@{viewCourse(course=${course.id})}"  role="button"><i class="fa fa-external-link"></i></a>
-	                    <a class="btn btn-info" th:href="@{calculateGrades(course=${course.id})}"  role="button"><i class="fa fa-calculator"></i></a>
+	                    <a class="btn btn-success" th:href="@{editCourse(course=${course.id})}"  role="button"><i class="fa fa-edit"></i></a>
 	                    <form action="#" th:action="@{deleteCourse(course=${course.id})}" method="post" style="display: inline-block;">
 	                    	<button class="btn btn-danger"><i class="fa fa-trash"></i></button>
 	                    </form>

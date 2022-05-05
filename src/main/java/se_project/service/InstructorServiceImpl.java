@@ -37,6 +37,19 @@ public class InstructorServiceImpl implements InstructorService {
 	
 	@Override
 	@Transactional
+	public Instructor findByUsername(String theUsername) {
+		Instructor result = instructorRepository.findByUsername(theUsername);
+				
+		if (result != null ) {
+			return result;
+		}
+		else {
+			throw new RuntimeException("Did not find instructor - " + theUsername);
+		}
+	}
+	
+	@Override
+	@Transactional
 	public void save(Instructor theInstructor) {
 		instructorRepository.save(theInstructor);
 	}

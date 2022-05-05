@@ -7,42 +7,48 @@
    <!-- Bootstrap CSS -->
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
-<title>Add course</title>
+<title>Edit course</title>
 
 </head>
 <body>
 
 
 <div class="container">
-    <h1>Add course</h1>
+    <h1>Edit course</h1>
     <br>
     <br>
     <hr> 
     
-    <form action="#" th:action="@{postCourse}" method="post" th:object="${course}">
+    <form action="#" th:action="@{updateCourse}" method="post" th:object="${course}" >
+    	
+    	<input type="hidden" class="form-control" th:field="*{id}" value="${course.id}"/><br/>
+    	<input type="hidden" class="form-control" th:field="*{instructor}" value="${course.instructor}"/><br/>
+    	
+    	
         <div class="mb4">
         <label class="form-label">Course name:</label>
-        <input type="text" class="form-control" th:field="*{name}" placeholder="Course name" /><br/>
+        <input type="text" class="form-control" th:field="*{name}" value="${course.name}"/><br/>
  		</div>
 
  		<div class="mb4">
         <label class="form-label">Syllabus:</label>
-        <input type="text" class="form-control" th:field="*{syllabus}" placeholder="Syllabus" /><br/>
+        <input type="text" class="form-control" th:field="*{syllabus}" value="${course.syllabus}"/><br/>
 		</div>
 		
 		<div class="mb4">
         <label class="form-label">Year:</label>
-        <input type="number" class="form-control" th:field="*{year}" placeholder="Year" min="0"/><br/>
+        <input type="number" class="form-control" th:field="*{year}" value="${course.year}" min="0"/><br/>
  		</div>
  		
  		<div class="mb4">
         <label class="form-label">Semester:</label>
-        <input type="number" class="form-control" th:field="*{semester}" placeholder="Semester" min="0"/><br/>
+        <input type="number" class="form-control" th:field="*{semester}" value="${course.semester}" min="0"/><br/>
  		</div>
+		
 		
         <br/>
  
-        <button class="btn btn-primary" type="submit">Add</button>    
+        <button class="btn btn-primary" type="submit">Update</button>    
     
     
     </form>

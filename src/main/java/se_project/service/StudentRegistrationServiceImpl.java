@@ -67,6 +67,16 @@ public class StudentRegistrationServiceImpl implements StudentRegistrationServic
 	public void deleteById(int theId) {
 		studentRegistrationRepository.deleteById(theId);
 	}
+
+	@Override
+	public StudentRegistration findByStudentIdAndCourseId(int studentId, int courseId) {
+		return studentRegistrationRepository.findByStudentIdAndCourseId(studentId, courseId);
+	}
+
+	@Override
+	public List<StudentRegistration> findByStudentId(int studentId) {
+		return studentRegistrationRepository.findByStudentId(studentId);
+	}
 }
 
 

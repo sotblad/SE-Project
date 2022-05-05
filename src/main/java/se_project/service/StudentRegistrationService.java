@@ -15,5 +15,9 @@ public interface StudentRegistrationService {
 	public void deleteById(int theId);
 	
 	public List<StudentRegistration> findByCourseId(int theId);
+
+	public StudentRegistration findByStudentIdAndCourseId(int studentId, int courseId);
+
+	public List<StudentRegistration> findByStudentId(int studentId);
 	
 }

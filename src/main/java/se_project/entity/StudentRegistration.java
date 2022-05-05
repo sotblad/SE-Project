@@ -2,20 +2,21 @@ package se_project.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 @Entity
-@IdClass(AccountId.class)
 @Table(name="studentRegistrations")
 public class StudentRegistration {
-
-	// define fields
-	
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
+	
+	@Column(name="student_id")
+	private int studentId;
 	
 	@Column(name="name")
 	private String name;
@@ -26,7 +27,6 @@ public class StudentRegistration {
 	@Column(name="semester")
 	private int semester;
 	
-	@Id
 	@Column(name="course_id")
 	private int courseId;
 	
@@ -42,9 +42,10 @@ public class StudentRegistration {
 	public StudentRegistration() {
 	}
 
-	public StudentRegistration(String name, int yearOfRegistration, int semester, int courseId, double grade,
+	public StudentRegistration(int studentId, String name, int yearOfRegistration, int semester, int courseId, double grade,
 			double projectGrade, double examGrade) {
 		super();
+		this.studentId = studentId;
 		this.name = name;
 		this.yearOfRegistration = yearOfRegistration;
 		this.semester = semester;
@@ -60,6 +61,14 @@ public class StudentRegistration {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public int getStudentId() {
+		return studentId;
+	}
+
+	public void setStudentId(int studentId) {
+		this.studentId = studentId;
 	}
 
 	public String getName() {
@@ -120,7 +129,7 @@ public class StudentRegistration {
 
 	@Override
 	public String toString() {
-		return "StudentRegistration [id=" + id + ", name=" + name + ", yearOfRegistration=" + yearOfRegistration
+		return "StudentRegistration [id=" + id + ", studentId=" + studentId + ", name=" + name + ", yearOfRegistration=" + yearOfRegistration
 				+ ", semester=" + semester + ", courseId=" + courseId + ", grade=" + grade + ", projectGrade="
 				+ projectGrade + ", examGrade=" + examGrade + "]";
 	}

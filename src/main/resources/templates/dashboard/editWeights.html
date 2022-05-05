@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+<title>Edit weights</title>
+
+</head>
+<body>
+
+
+<div class="container">
+    <h1>Edit weights</h1>
+    <br>
+    <br>
+    <hr> 
+    
+    <form action="#" th:action="@{updateWeights}" method="post" th:object="${course}" >
+    	
+    	<input type="hidden" class="form-control" th:field="*{id}" value="${course.id}"/>
+    	<input type="hidden" class="form-control" th:field="*{name}" value="${course.name}"/>
+    	<input type="hidden" class="form-control" th:field="*{instructor}" value="${course.instructor}"/>
+    	<input type="hidden" class="form-control" th:field="*{semester}" value="${course.semester}"/>
+    	<input type="hidden" class="form-control" th:field="*{syllabus}" value="${course.syllabus}"/>
+    	<input type="hidden" class="form-control" th:field="*{year}" value="${course.year}"/>
+    	
+    	
+        <div class="mb4">
+        <label class="form-label">Exam weight:</label>
+        <input type="number" class="form-control" th:field="*{examWeight}" value="${student.examWeight}" step="0.01" min="0" max="150"/><br/>
+ 		</div>
+ 		
+ 		<div class="mb4">
+        <label class="form-label">Project weight:</label>
+        <input type="number" class="form-control" th:field="*{projectWeight}" value="${student.projectWeight}" step="0.01" min="0" max="150"/><br/>
+		</div>
+		
+		
+        <br/>
+ 
+        <button class="btn btn-primary" type="submit">Update</button>
+    
+    
+    </form>
+</div>
+
+
+</body>
+</html>
