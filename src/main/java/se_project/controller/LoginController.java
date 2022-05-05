@@ -45,27 +45,24 @@ public class LoginController {
 	
 	@GetMapping("/register")
 	public String register(Model model) {	
-		System.out.println("AAAA");
 		model.addAttribute("instructor", new Instructor());
 	    return "register";
 	}
 	
 	@PostMapping("/postLogin")
 	public String postLogin(Model model) {
-	    System.out.println("ZS");
 	    return "redirect:/login";
 	}
 	
 	@PostMapping("/postRegister")
 	public String postRegister(@ModelAttribute("instructor")Instructor instructor, Model model) {
-		Authorities authority = new Authorities();
+		Authorities authority = new Authorities(instructor.getUsername(), "INSTRUCTOR");
 	    String encodedPassword  = passwordEncoder.encode(instructor.getPassword());
 	    instructor.setPassword(encodedPassword);
 	    instructor.setEnabled(true);
 	    instructorService.save(instructor);
-	    authority.setUsername(instructor.getUsername());
-	    authority.setAuthority("INSTRUCTOR");
 	    authoritiesService.save(authority);
+	    
 	    return "redirect:/login";
 	}
 
