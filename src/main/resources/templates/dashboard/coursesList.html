@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
+	
+<title>My courses</title>
+
+</head>
+<body>
+
+
+<div class="container">
+    <h1>My courses</h1>
+    <br>
+    <br> 
+    <hr>
+    
+    <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Syllabus</th>
+                    <th>Year</th>
+                    <th>Semester</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="course: ${listCourses}">
+                    <td th:text="${course.id}">Course ID</td>
+                    <td th:text="${course.name}">Course Name</td>
+                    <td th:text="${course.syllabus}">Syllabus</td>
+                    <td th:text="${course.year}">Year</td>
+                    <td th:text="${course.semester}">Semester</td>
+                    <td style="width:165px;">
+	                    <a class="btn btn-info" th:href="@{viewCourse(course=${course.id})}"  role="button"><i class="fa fa-external-link"></i></a>
+	                    <a class="btn btn-info" th:href="@{calculateGrades(course=${course.id})}"  role="button"><i class="fa fa-calculator"></i></a>
+	                    <form action="#" th:action="@{deleteCourse(course=${course.id})}" method="post" style="display: inline-block;">
+	                    	<button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+	                    </form>
+	                    
+	                    
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    <a class="btn btn-primary btn-lg" href="/addCourse" role="button">Add course</a>
+</div>
+
+
+</body>
+</html>

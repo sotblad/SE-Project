@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+<title>Add course</title>
+
+</head>
+<body>
+
+
+<div class="container">
+    <h1>Add course</h1>
+    <br>
+    <br>
+    <hr> 
+    
+    <form action="#" th:action="@{postCourse}" method="post" th:object="${course}">
+        <div class="mb4">
+        <label class="form-label">Course name:</label>
+        <input type="text" class="form-control" th:field="*{name}" placeholder="Course name" /><br/>
+ 		</div>
+
+ 		<div class="mb4">
+        <label class="form-label">Syllabus:</label>
+        <input type="text" class="form-control" th:field="*{syllabus}" placeholder="Syllabus" /><br/>
+		</div>
+		
+		<div class="mb4">
+        <label class="form-label">Year:</label>
+        <input type="text" class="form-control" th:field="*{year}" placeholder="Year" /><br/>
+ 		</div>
+ 		
+ 		<div class="mb4">
+        <label class="form-label">Semester:</label>
+        <input type="text" class="form-control" th:field="*{semester}" placeholder="Semester" /><br/>
+ 		</div>
+		
+        <br/>
+ 
+        <button class="btn btn-primary" type="submit">Add</button>    
+    
+    
+    </form>
+</div>
+
+
+</body>
+</html>

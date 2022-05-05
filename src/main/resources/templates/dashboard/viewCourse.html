@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+   <!-- Bootstrap CSS -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" crossorigin="anonymous">
+	
+	
+	<style>
+	.courseInfo {
+		background: #E6E6E6;
+    	border-radius: 10px;
+	}
+	
+	</style>
+<title>Course</title>
+
+</head>
+<body>
+
+
+<div class="container">
+	<h3>Course Info: </h3>
+	<div class="courseInfo">
+		<div style="margin-left:30px">
+			<br>
+		    <h6 th:text="'Year ' + ${course.year} + ', Semester ' + ${course.Semester}" style="color: #7f7d7d;"></h6>
+		    <h2 th:text="${course.name} + ', '"></h2>
+		    <i th:text="'by ' + ${course.instructor}" style="margin-left:20px"></i>
+		    <hr style="margin-left:-30px">
+		    <h3 th:text="${course.syllabus}"></h3>
+		    <br>
+	    </div>
+    </div>
+    <hr>
+    <h3>Students</h3>
+    
+    
+    <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Registration Year</th>
+                    <th>Semester</th>
+                    <th>Grade</th>
+                    <th></th>
+                </tr>
+            </thead>
+             <tbody>
+                <tr th:each="student: ${students}">
+                    <td th:text="${student.id}">ID</td>
+                    <td th:text="${student.name}">Name</td>
+                    <td th:text="${student.yearOfRegistration}">Registration Year</td>
+                    <td th:text="${student.semester}">Semester</td>
+                    <td th:text="${student.grade}">Semester</td>
+                    <td>
+                    <form action="#" th:action="@{deleteStudent(course=${course.id},student=${student.id})}" method="post" style="display: inline-block;">
+	                    	<button class="btn btn-danger"><i class="fa fa-trash"></i></button>
+	                </form>
+	                <a class="btn btn-info" th:href="@{updateStudent(course=${course.id})}"  role="button"><i class="fa fa-external-link"></i></a>
+	                </td>
+	                
+                </tr>
+            </tbody>
+        </table>
+    <a class="btn btn-primary btn-lg" th:href="@{addStudent(course=${course.id})}" role="button">Add student</a>
+</div>
+
+
+</body>
+</html>
