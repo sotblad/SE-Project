@@ -84,6 +84,7 @@
                 </tr>
             </thead>
              <tbody>             	
+             	<a class="btn btn-danger" style="float:right;" th:href="@{viewStats(course=${course.id})}"  role="button"><i class="fa fa-calculator"> View Stats</i></a>
              	<a class="btn btn-info" style="float:right;" th:href="@{calculateGrades(course=${course.id})}"  role="button"><i class="fa fa-calculator"> Calculate Grades</i></a>
                 <tr th:each="student: ${students}">
                     <td th:text="${student.studentId}">ID</td>

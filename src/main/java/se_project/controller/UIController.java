@@ -1,5 +1,7 @@
 package se_project.controller;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import se_project.controller.statistics.Statistic;
 import se_project.entity.Course;
 import se_project.entity.Instructor;
+import se_project.entity.Statistics;
 import se_project.entity.StudentRegistration;
 import se_project.service.CourseService;
 import se_project.service.InstructorService;
@@ -194,7 +198,6 @@ public class UIController {
 		return "redirect:/viewCourse?course="+student.getCourseId(); 
 	}
 	
-	//US10
 	@GetMapping("/editWeights")
 	public String editWeights(@ModelAttribute("course") int courseId, Model model) {
 		Course course = courseService.findById(courseId);
@@ -210,24 +213,43 @@ public class UIController {
 		return "redirect:/viewCourse?course="+course.getId(); 
 	}
 	
+	//US11
 	@GetMapping("/calculateGrades")
 	public String calculateGrades(@ModelAttribute("course")int courseId, Model model) {
 		Course course = courseService.findById(courseId);
 		double examWeight = course.getExamWeight()/100; // set to weight apo front end -> field sto course?
 		double projectWeight = course.getProjectWeight()/100;
 		List<StudentRegistration> studentsList = studentRegistrationService.findByCourseId(courseId);
-		System.out.println(studentsList);
+
 		for(int i = 0; i < studentsList.size(); i++) {
 			double examGrade = studentsList.get(i).getExamGrade();
 			double projectGrade = studentsList.get(i).getProjectGrade();
 			double grade = examGrade*examWeight + projectGrade*projectWeight;
 
 			studentsList.get(i).setGrade(grade);
-			System.out.println(grade);
 			studentRegistrationService.save(studentsList.get(i));
 		}
 
 		return "redirect:/viewCourse?course="+course.getId(); 
+	}
+	
+	@GetMapping("/viewStats")
+	public String viewStats(@ModelAttribute("course") int courseId, Model model) {
+		Course course = courseService.findById(courseId);
+		
+		HashMap<String, Statistic> statistics = Singleton.supportedStatistics;
+		
+		for(String stat : statistics.keySet()) {
+			statistics.get(stat).execute(studentRegistrationService.findByCourseId(courseId));
+		}
+		System.out.println(Singleton.statistics);
+		model.addAttribute("course", course);
+		model.addAttribute("stats", Singleton.statistics);
+
+		
+		
+		
+		return "dashboard/viewStats";
 	}
 	
 	
