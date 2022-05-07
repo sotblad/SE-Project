@@ -1,16 +1,13 @@
 package se_project.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import se_project.dao.AuthoritiesDAO;
-import se_project.dao.InstructorDAO;
 import se_project.entity.Authorities;
-import se_project.entity.Instructor;
 
 @Service
 public class AuthoritiesServiceImpl implements AuthoritiesService {

@@ -8,18 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import se_project.entity.Authorities;
-import se_project.entity.Course;
 import se_project.entity.Instructor;
-import se_project.entity.StudentRegistration;
 import se_project.service.AuthoritiesService;
-import se_project.service.CourseService;
 import se_project.service.InstructorService;
-import se_project.service.StudentRegistrationService;
 
 @Controller
 public class LoginController {
@@ -36,6 +30,16 @@ public class LoginController {
 	public LoginController(InstructorService theInstructorService, AuthoritiesService theAuthoritiesService) {
 		instructorService = theInstructorService;
 		authoritiesService = theAuthoritiesService;
+	}
+	
+	@GetMapping("")
+	public String dashboard(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Instructor instructor = instructorService.findByUsername(authentication.getName());
+		
+	    model.addAttribute("instructor", instructor.getFullname());
+
+	    return "dashboard/dashboard";
 	}
 	
 	@GetMapping("/login")    

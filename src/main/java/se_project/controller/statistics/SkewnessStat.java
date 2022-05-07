@@ -33,15 +33,15 @@ public class SkewnessStat implements Statistic {
 		double sam = 0;
 		for(int i = 0;i<list.size();i++) {
 			sum += Math.pow(list.get(i).getGrade()-mean, 2);
-			sam += Math.pow(list.get(i).getGrade()-mean, 3);
 		}
 		System.out.println(sam);
 		stdDeviation = Math.sqrt(sum/(list.size()-1));
-
-		double res = sam/((list.size()-1)*Math.pow(stdDeviation, 3));
-	//	System.out.println(res*(list.size()/(list.size()-1)));
-		//System.out.println((list.size()/(list.size()-1)));
 		
+		for(int i = 0;i<list.size();i++) {
+			sam += Math.pow((list.get(i).getGrade()-mean)/stdDeviation, 3);
+		}
+
+		double res = sam*list.size()/((list.size()-1)*(list.size()-2));
 		
 		statistics.setSkewness((float)res);
 	}

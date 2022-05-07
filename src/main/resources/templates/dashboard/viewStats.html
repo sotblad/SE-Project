@@ -55,7 +55,6 @@
                     <th>Mean grade</th>
                     <th>Std Deviation</th>
                     <th>Variance</th>
-                    <th>Percentiles</th>
                     <th>Skewness</th>
                     <th>Kurtosis</th>
                     <th>Median</th>
@@ -68,12 +67,28 @@
                     <td th:text="${stats.mean}"></td>
                     <td th:text="${stats.stDeviation}"></td>
                     <td th:text="${stats.variance}"></td>
-                    <td th:text="${stats.percentiles}"></td>
                     <td th:text="${stats.skewness}"></td>
                     <td th:text="${stats.kurtosis}"></td>
                     <td th:text="${stats.median}"></td>
 	                
                 </tr>
+            </tbody>
+        </table>
+        
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Percentile</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <div th:each="percentile : ${stats.percentiles}">
+                <tr th:each="percentileEntry : ${percentile}">
+                    <td th:text="${percentileEntry.key}"></td>
+                    <td th:text="${percentileEntry.value}"></td>
+                </tr>
+                </div>
             </tbody>
         </table>
 </div>

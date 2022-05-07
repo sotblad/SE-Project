@@ -1,17 +1,19 @@
 package se_project.entity;
 
+import java.util.HashMap;
+
 public class Statistics {
 	private float min;
 	private float max;
 	private float mean;
 	private float stDeviation;
 	private float variance;
-	private float percentiles;
+	private HashMap<Integer, Double> percentiles;
 	private float skewness;
 	private float kurtosis;
 	private float median;
 	
-	public Statistics(float min, float max, float mean, float stDeviation, float variance, float percentiles,
+	public Statistics(float min, float max, float mean, float stDeviation, float variance, HashMap<Integer, Double> percentiles,
 			float skewness, float kurtosis, float median) {
 		super();
 		this.min = min;
@@ -69,11 +71,11 @@ public class Statistics {
 		this.variance = variance;
 	}
 
-	public float getPercentiles() {
+	public HashMap<Integer, Double> getPercentiles() {
 		return percentiles;
 	}
 
-	public void setPercentiles(float percentiles) {
+	public void setPercentiles(HashMap<Integer, Double> percentiles) {
 		this.percentiles = percentiles;
 	}
 
@@ -104,7 +106,7 @@ public class Statistics {
 	@Override
 	public String toString() {
 		return "Statistics [min=" + min + ", max=" + max + ", mean=" + mean + ", stDeviation=" + stDeviation
-				+ ", variance=" + variance + ", percentiles=" + percentiles + ", skewness=" + skewness + ", kurtosis="
+				+ ", variance=" + variance + ", skewness=" + skewness + ", kurtosis="
 				+ kurtosis + ", median=" + median + "]";
 	}	
 }

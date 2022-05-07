@@ -1,6 +1,5 @@
 package se_project.service;
 
-import se_project.entity.Authorities;
 import se_project.entity.Instructor;
 
 public interface InstructorService {

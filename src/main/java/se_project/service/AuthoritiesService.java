@@ -3,7 +3,6 @@ package se_project.service;
 import java.util.List;
 
 import se_project.entity.Authorities;
-import se_project.entity.Instructor;
 
 public interface AuthoritiesService {
 	

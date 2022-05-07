@@ -1,12 +1,16 @@
 package se_project.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import se_project.controller.Singleton;
+import se_project.controller.statistics.Statistic;
 import se_project.dao.StudentRegistrationDAO;
+import se_project.entity.Course;
 import se_project.entity.StudentRegistration;
 
 @Service
@@ -76,6 +80,32 @@ public class StudentRegistrationServiceImpl implements StudentRegistrationServic
 	@Override
 	public List<StudentRegistration> findByStudentId(int studentId) {
 		return studentRegistrationRepository.findByStudentId(studentId);
+	}
+
+	@Override
+	public void calculateGrades(Course course, List<StudentRegistration> studentsList) {
+		double examWeight = course.getExamWeight()/100;
+		double projectWeight = course.getProjectWeight()/100;
+		
+		for(int i = 0; i < studentsList.size(); i++) {
+			double examGrade = studentsList.get(i).getExamGrade();
+			double projectGrade = studentsList.get(i).getProjectGrade();
+			double grade = examGrade*examWeight + projectGrade*projectWeight;
+
+			studentsList.get(i).setGrade(grade);
+			this.save(studentsList.get(i));
+		}
+		
+	}
+
+	@Override
+	public void calculateStats(int courseId) {
+		HashMap<String, Statistic> statistics = Singleton.supportedStatistics;
+		
+		for(String stat : statistics.keySet()) {
+			statistics.get(stat).execute(this.findByCourseId(courseId));
+		}
+		
 	}
 }
 
