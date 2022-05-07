@@ -76,7 +76,7 @@ public class CourseController {
 	public String editCourse(@ModelAttribute("course") int courseId, Model model) {
 		Course course = courseService.findById(courseId);
 
-		model.addAttribute("course",course);
+		model.addAttribute("course", course);
 		return "dashboard/editCourse";
 	}
 	
