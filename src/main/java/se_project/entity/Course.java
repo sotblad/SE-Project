@@ -39,7 +39,7 @@ public class Course {
 	public Course() {
 		
 	}
-
+	
 	public Course(String name, String instructor, String syllabus, int year, int semester, double examWeight,
 			double projectWeight) {
 		super();

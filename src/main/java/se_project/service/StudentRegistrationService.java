@@ -11,15 +11,15 @@ public interface StudentRegistrationService {
 	
 	public StudentRegistration findById(int theId);
 	
+	public List<StudentRegistration> findByCourseId(int theId);
+	
+	public StudentRegistration findByStudentIdAndCourseId(int studentId, int courseId);
+	
+	public List<StudentRegistration> findByStudentId(int studentId);
+	
 	public void save(StudentRegistration theStudentRegistration);
 	
 	public void deleteById(int theId);
-	
-	public List<StudentRegistration> findByCourseId(int theId);
-
-	public StudentRegistration findByStudentIdAndCourseId(int studentId, int courseId);
-
-	public List<StudentRegistration> findByStudentId(int studentId);
 	
 	public void calculateGrades(Course course, List<StudentRegistration> studentsList);
 	

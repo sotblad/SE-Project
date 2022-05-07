@@ -43,8 +43,7 @@ public class StudentRegistrationServiceImpl implements StudentRegistrationServic
 			return result;
 		}
 		else {
-			// we didn't find the StudentRegistration
-			throw new RuntimeException("Did not find StudentRegistration id - " + theId);
+			throw new RuntimeException("Did not find StudentRegistration");
 		}
 	}
 	
@@ -56,7 +55,7 @@ public class StudentRegistrationServiceImpl implements StudentRegistrationServic
 			return result;
 		}
 		else {
-			throw new RuntimeException("Did not find courseId - " + theId);
+			throw new RuntimeException("Did not find course");
 		}
 	}
 
@@ -95,7 +94,6 @@ public class StudentRegistrationServiceImpl implements StudentRegistrationServic
 			studentsList.get(i).setGrade(grade);
 			this.save(studentsList.get(i));
 		}
-		
 	}
 
 	@Override
@@ -105,7 +103,6 @@ public class StudentRegistrationServiceImpl implements StudentRegistrationServic
 		for(String stat : statistics.keySet()) {
 			statistics.get(stat).execute(this.findByCourseId(courseId));
 		}
-		
 	}
 }
 

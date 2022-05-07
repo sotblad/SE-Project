@@ -33,7 +33,7 @@ public class AuthoritiesServiceImpl implements AuthoritiesService {
 			return result;
 		}
 		else {
-			throw new RuntimeException("Did not find username - " + theUsername);
+			throw new RuntimeException("Did not find username");
 		}
 	}
 	
@@ -41,6 +41,12 @@ public class AuthoritiesServiceImpl implements AuthoritiesService {
 	@Transactional
 	public void save(Authorities theAuthorities) {
 		authoritiesRepository.save(theAuthorities);
+	}
+	
+	@Override
+	@Transactional
+	public void deleteByUsername(String theUsername) {
+		authoritiesRepository.deleteByUsername(theUsername);
 	}
 }
 

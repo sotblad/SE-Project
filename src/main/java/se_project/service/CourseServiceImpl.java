@@ -39,7 +39,7 @@ public class CourseServiceImpl implements CourseService {
 			return result;
 		}
 		else {
-			throw new RuntimeException("Did not find course id - " + theId);
+			throw new RuntimeException("Did not find course id");
 		}
 	}
 
@@ -63,7 +63,7 @@ public class CourseServiceImpl implements CourseService {
 			return result;
 		}
 		else {
-			throw new RuntimeException("Did not find instructor name - " + name);
+			throw new RuntimeException("Did not find courses");
 		}
 	}
 }

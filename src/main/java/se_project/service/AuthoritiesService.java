@@ -10,4 +10,6 @@ public interface AuthoritiesService {
 	
 	public void save(Authorities theAuthorities);
 	
+	public void deleteByUsername(String theUsername);
+	
 }

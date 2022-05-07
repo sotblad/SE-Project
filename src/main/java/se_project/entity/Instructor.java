@@ -31,7 +31,7 @@ public class Instructor {
 	public Instructor() {
 		
 	}
-
+	
 	public Instructor(String fullname, String username, String password, boolean enabled) {
 		super();
 		this.fullname = fullname;

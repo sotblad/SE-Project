@@ -11,5 +11,7 @@ import se_project.entity.Authorities;
 public interface AuthoritiesDAO extends JpaRepository<Authorities, Integer> {
 	
 	public List<Authorities> findByUsername(String theUsername);
+
+	public void deleteByUsername(String theUsername);
 		
 }

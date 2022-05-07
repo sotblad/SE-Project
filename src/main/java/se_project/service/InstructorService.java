@@ -10,4 +10,6 @@ public interface InstructorService {
 	
 	public Instructor findByUsername(String theUsername);
 	
+	public void deleteById(int theId);
+	
 }

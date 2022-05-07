@@ -31,7 +31,7 @@ public class InstructorServiceImpl implements InstructorService {
 			return result;
 		}
 		else {
-			throw new RuntimeException("Did not find instructor id - " + theId);
+			throw new RuntimeException("Did not find instructor");
 		}
 	}
 	
@@ -44,8 +44,14 @@ public class InstructorServiceImpl implements InstructorService {
 			return result;
 		}
 		else {
-			throw new RuntimeException("Did not find instructor - " + theUsername);
+			throw new RuntimeException("Did not find instructor");
 		}
+	}
+	
+	@Override
+	@Transactional
+	public void deleteById(int theId) {
+		instructorRepository.deleteById(theId);
 	}
 	
 	@Override
