@@ -53,11 +53,6 @@ public class LoginController {
 	    return "register";
 	}
 	
-	@PostMapping("/postLogin")
-	public String postLogin(Model model) {
-	    return "redirect:/login";
-	}
-	
 	@PostMapping("/postRegister")
 	public String postRegister(@ModelAttribute("instructor")Instructor instructor, Model model) {
 		Authorities authority = new Authorities(instructor.getUsername(), "INSTRUCTOR");

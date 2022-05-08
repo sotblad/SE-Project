@@ -71,7 +71,7 @@ public class StudentController {
 	public String updateStudent(@ModelAttribute("student")StudentRegistration student, @RequestParam(required=false, value = "soft") String soft, Model model) {
 		if(soft != null) {
 			studentRegistrationService.save(student);
-			return "redirect:/viewCourse?course="+student.getCourseId(); 
+			return "redirect:/viewCourse?course=" + student.getCourseId(); 
 		}
 		
 		List<StudentRegistration> result = studentRegistrationService.findByStudentId(student.getStudentId());
