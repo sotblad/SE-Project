@@ -43,7 +43,7 @@
     <form action="#" th:action="@{updateGrades}" method="post" th:object="${student}" >
     	
     	<input type="hidden" class="form-control" th:field="*{id}" value="${student.id}"/>
-    	<input type="hidden" class="form-control" th:field="*{courseId}" value="${student.courseId}"/>
+    	<input type="hidden" class="form-control" th:field="*{course.id}" value="${student.courseId}"/>
     	<input type="hidden" class="form-control" th:field="*{studentId}" value="${student.studentId}"/>
     	<input type="hidden" class="form-control" th:field="*{name}" value="${student.name}"/>
     	<input type="hidden" class="form-control" th:field="*{yearOfRegistration}" value="${student.yearOfRegistration}"/>

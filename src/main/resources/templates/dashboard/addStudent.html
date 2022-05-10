@@ -39,6 +39,8 @@
     <hr> 
     
     <form action="#" th:action="@{postStudent(courseId=${courseId})}" method="post" th:object="${student}">
+    	<input type="hidden" class="form-control" th:field="*{course}" value="${student.course}"/>
+    	
     	<div class="mb4">
         <label class="form-label">Student ID:</label>
         <input type="number" class="form-control" th:field="*{studentId}" placeholder="Student ID" min="0"/><br/>

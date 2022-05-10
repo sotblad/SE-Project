@@ -41,7 +41,7 @@ public class GradesController {
 	public String updateGrades(@ModelAttribute("student")StudentRegistration student, Model model) {
 		studentRegistrationService.save(student);
 		
-		return "redirect:/viewCourse?course=" + student.getCourseId(); 
+		return "redirect:/viewCourse?course=" + student.getCourse().getId(); 
 	}
 	
 	@GetMapping("/editWeights")

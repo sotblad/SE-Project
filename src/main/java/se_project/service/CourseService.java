@@ -3,6 +3,7 @@ package se_project.service;
 import java.util.List;
 
 import se_project.entity.Course;
+import se_project.entity.Instructor;
 
 public interface CourseService {
 

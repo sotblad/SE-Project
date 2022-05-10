@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import se_project.entity.StudentRegistration;
+import se_project.service.CourseService;
 import se_project.service.StudentRegistrationService;
 
 @Controller
@@ -18,6 +19,9 @@ public class StudentController {
 	
 	@Autowired
 	private StudentRegistrationService studentRegistrationService;
+	
+	@Autowired
+	private CourseService courseService;
 	
 	public StudentController(StudentRegistrationService theStudentRegistrationService) {
 		studentRegistrationService = theStudentRegistrationService;
@@ -27,6 +31,8 @@ public class StudentController {
 	@GetMapping("/addStudent")
 	public String addStudent(@ModelAttribute("course")int courseId, Model model) {
 		StudentRegistration student = new StudentRegistration();
+		student.setCourse(courseService.findById(courseId));
+		System.out.println(student);
 		model.addAttribute("courseId", courseId);
 		model.addAttribute("student", student);
 		
@@ -35,9 +41,10 @@ public class StudentController {
 	
 	@PostMapping("/postStudent")
 	public String postStudent(@ModelAttribute("student")StudentRegistration studentRegistration, Model model) {
+		System.out.println(studentRegistration);
 		int registrationId = studentRegistration.getStudentId();
 		
-		List<StudentRegistration> studentsList = studentRegistrationService.findByCourseId(studentRegistration.getCourseId());
+		List<StudentRegistration> studentsList = studentRegistrationService.findByCourseId(studentRegistration.getCourse().getId());
 		for(StudentRegistration i : studentsList){
 			if(i.getStudentId() == registrationId || registrationId < 0)
 				return "error";
@@ -45,7 +52,7 @@ public class StudentController {
 
 		studentRegistrationService.save(studentRegistration);
 		
-	    return "redirect:/viewCourse?course=" + studentRegistration.getCourseId();
+	    return "redirect:/viewCourse?course=" + studentRegistration.getCourse().getId();
 	}
 	
 	//US8
@@ -71,7 +78,7 @@ public class StudentController {
 	public String updateStudent(@ModelAttribute("student")StudentRegistration student, @RequestParam(required=false, value = "soft") String soft, Model model) {
 		if(soft != null) {
 			studentRegistrationService.save(student);
-			return "redirect:/viewCourse?course=" + student.getCourseId(); 
+			return "redirect:/viewCourse?course=" + student.getCourse().getId(); 
 		}
 		
 		List<StudentRegistration> result = studentRegistrationService.findByStudentId(student.getStudentId());

@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,8 +29,9 @@ public class StudentRegistration {
 	@Column(name="semester")
 	private int semester;
 	
-	@Column(name="course_id")
-	private int courseId;
+	@ManyToOne
+	@JoinColumn(name = "course_id")
+	private Course course;
 	
 	@Column(name="grade")
 	private double grade;
@@ -42,14 +45,14 @@ public class StudentRegistration {
 	public StudentRegistration() {
 	}
 
-	public StudentRegistration(int studentId, String name, int yearOfRegistration, int semester, int courseId, double grade,
+	public StudentRegistration(int studentId, String name, int yearOfRegistration, int semester, Course course, double grade,
 			double projectGrade, double examGrade) {
 		super();
 		this.studentId = studentId;
 		this.name = name;
 		this.yearOfRegistration = yearOfRegistration;
 		this.semester = semester;
-		this.courseId = courseId;
+		this.course = course;
 		this.grade = grade;
 		this.projectGrade = projectGrade;
 		this.examGrade = examGrade;
@@ -95,12 +98,12 @@ public class StudentRegistration {
 		this.semester = semester;
 	}
 	
-	public int getCourseId() {
-		return courseId;
+	public Course getCourse() {
+		return course;
 	}
 	
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
 	public double getGrade() {
@@ -130,7 +133,7 @@ public class StudentRegistration {
 	@Override
 	public String toString() {
 		return "StudentRegistration [id=" + id + ", studentId=" + studentId + ", name=" + name + ", yearOfRegistration=" + yearOfRegistration
-				+ ", semester=" + semester + ", courseId=" + courseId + ", grade=" + grade + ", projectGrade="
+				+ ", semester=" + semester + ", course=" + course + ", grade=" + grade + ", projectGrade="
 				+ projectGrade + ", examGrade=" + examGrade + "]";
 	}
 		
