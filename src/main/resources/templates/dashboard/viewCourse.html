@@ -62,7 +62,7 @@
 			</div>
 		    <h6 th:text="'Year ' + ${course.year} + ', Semester ' + ${course.Semester}" style="color: #7f7d7d;"></h6>
 		    <h2 th:text="${course.name} + ', '"></h2>
-		    <i th:text="'by ' + ${course.instructor}" style="margin-left:20px"></i>
+		    <i th:text="'by ' + ${course.instructor.username}" style="margin-left:20px"></i>
 		    <hr style="margin-left:-30px">
 		    <h3 th:text="${course.syllabus}"></h3>
 		    <br>

@@ -34,7 +34,7 @@ public class SkewnessStat implements Statistic {
 		for(int i = 0;i<list.size();i++) {
 			sum += Math.pow(list.get(i).getGrade()-mean, 2);
 		}
-		System.out.println(sam);
+
 		stdDeviation = Math.sqrt(sum/(list.size()-1));
 		
 		for(int i = 0;i<list.size();i++) {

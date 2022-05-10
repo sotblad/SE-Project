@@ -32,7 +32,7 @@ public class StudentController {
 	public String addStudent(@ModelAttribute("course")int courseId, Model model) {
 		StudentRegistration student = new StudentRegistration();
 		student.setCourse(courseService.findById(courseId));
-		System.out.println(student);
+
 		model.addAttribute("courseId", courseId);
 		model.addAttribute("student", student);
 		
@@ -41,7 +41,6 @@ public class StudentController {
 	
 	@PostMapping("/postStudent")
 	public String postStudent(@ModelAttribute("student")StudentRegistration studentRegistration, Model model) {
-		System.out.println(studentRegistration);
 		int registrationId = studentRegistration.getStudentId();
 		
 		List<StudentRegistration> studentsList = studentRegistrationService.findByCourseId(studentRegistration.getCourse().getId());
@@ -58,7 +57,6 @@ public class StudentController {
 	//US8
 	@PostMapping("/removeStudent")
 	public String removeStudent(@ModelAttribute("student")int studentId, @ModelAttribute("course")int courseId, Model model) {
-			
 		StudentRegistration result = studentRegistrationService.findByStudentIdAndCourseId(studentId, courseId);
 		studentRegistrationService.deleteById(result.getId());
 
@@ -71,6 +69,7 @@ public class StudentController {
 		StudentRegistration student = studentRegistrationService.findByStudentIdAndCourseId(studentId, courseId);
 
 		model.addAttribute("student", student);
+		
 		return "dashboard/editStudent";
 	}
 	

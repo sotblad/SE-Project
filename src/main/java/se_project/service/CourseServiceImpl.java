@@ -56,8 +56,8 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public List<Course> findByInstructor(String name) {
-		List<Course> result = courseRepository.findByInstructor(name);
+	public List<Course> findByInstructorUsername(String name) {
+		List<Course> result = courseRepository.findByInstructorUsername(name);
 		
 		if (result != null ) {
 			return result;
