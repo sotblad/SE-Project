@@ -39,6 +39,8 @@
     <hr> 
     
     <form action="#" th:action="@{postCourse}" method="post" th:object="${course}">
+    	<input type="hidden" class="form-control" th:field="*{instructor}" value="${course.instructor}"/>
+    	
         <div class="mb4">
         <label class="form-label">Course name:</label>
         <input type="text" class="form-control" th:field="*{name}" placeholder="Course name" /><br/>

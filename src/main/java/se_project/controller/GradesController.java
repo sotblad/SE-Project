@@ -34,6 +34,7 @@ public class GradesController {
 		StudentRegistration student = studentRegistrationService.findByStudentIdAndCourseId(studentId, courseId);
 
 		model.addAttribute("student", student);
+		
 		return "dashboard/editGrades";
 	}
 	
@@ -49,6 +50,7 @@ public class GradesController {
 		Course course = courseService.findById(courseId);
 
 		model.addAttribute("course", course);
+		
 		return "dashboard/editWeights";
 	}
 	

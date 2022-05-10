@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import se_project.entity.Course;
 import se_project.entity.StudentRegistration;
 import se_project.service.CourseService;
+import se_project.service.InstructorService;
 import se_project.service.StudentRegistrationService;
 
 @Controller
@@ -25,6 +26,9 @@ public class CourseController {
 	@Autowired
 	private StudentRegistrationService studentRegistrationService;
 	
+	@Autowired
+	private InstructorService instructorService;
+	
 	public CourseController(StudentRegistrationService theStudentRegistrationService, CourseService theCourseService) {
 		courseService = theCourseService;
 		studentRegistrationService = theStudentRegistrationService;
@@ -34,18 +38,20 @@ public class CourseController {
 	@GetMapping("/myCourses")
 	public String myCourses(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-		List<Course> listCourses = courseService.findByInstructor(authentication.getName());
+		List<Course> listCourses = courseService.findByInstructorUsername(authentication.getName());
 
 	    model.addAttribute("listCourses", listCourses);
 
 	    return "dashboard/coursesList";
 	}
 	
-	//US3 -- TODO id?
+	//US3
 	@GetMapping("/addCourse")
 	public String addCourse(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Course course = new Course();
+		course.setInstructor(instructorService.findByUsername(authentication.getName()));
+		
 		model.addAttribute("course", course);
 		
 	    return "dashboard/addCourse";
@@ -53,10 +59,6 @@ public class CourseController {
 	
 	@PostMapping("/postCourse")
 	public String postCourse(@ModelAttribute("course")Course course, Model model) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-		course.setInstructor(authentication.getName());
-
 		courseService.save(course);
 		
 	    return "redirect:myCourses";
@@ -65,7 +67,6 @@ public class CourseController {
 	//US4
 	@PostMapping("/deleteCourse")
 	public String deleteCourse(@ModelAttribute("course")int courseId, Model model) {
-		
 		courseService.deleteById(courseId);
 
 	    return "redirect:myCourses";
@@ -77,22 +78,26 @@ public class CourseController {
 		Course course = courseService.findById(courseId);
 
 		model.addAttribute("course", course);
+		
 		return "dashboard/editCourse";
 	}
 	
 	@PostMapping("/updateCourse")
 	public String updateCourse(@ModelAttribute("course")Course course, Model model) {
 		courseService.save(course);
+		
 		return "redirect:/myCourses";
 	}
 	
 	//US6
 	@GetMapping("/viewCourse")
 	public String viewCourse(@ModelAttribute("course")int courseId, Model model) {
-		Course course = courseService.findById(courseId);
 		List<StudentRegistration> students = studentRegistrationService.findByCourseId(courseId);
-		model.addAttribute("course",course);
-		model.addAttribute("students",students);
+		Course course = courseService.findById(courseId);
+		
+		model.addAttribute("course", course);
+		model.addAttribute("students", students);
+		
 	    return "dashboard/viewCourse";
 	}	
 }

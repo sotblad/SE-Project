@@ -1,6 +1,5 @@
 package se_project.controller.statistics;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import se_project.controller.Singleton;

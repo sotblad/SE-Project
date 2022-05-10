@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,8 +20,9 @@ public class Course {
 	@Column(name="name")
 	private String name;
 	
-	@Column(name="instructor")
-	private String instructor;
+	@ManyToOne
+	@JoinColumn(name = "instructor")
+	private Instructor instructor;
 	
 	@Column(name="syllabus")
 	private String syllabus;
@@ -40,7 +43,7 @@ public class Course {
 		
 	}
 	
-	public Course(String name, String instructor, String syllabus, int year, int semester, double examWeight,
+	public Course(String name, Instructor instructor, String syllabus, int year, int semester, double examWeight,
 			double projectWeight) {
 		super();
 		this.name = name;
@@ -68,11 +71,11 @@ public class Course {
 		this.name = name;
 	}
 
-	public String getInstructor() {
+	public Instructor getInstructor() {
 		return instructor;
 	}
 
-	public void setInstructor(String instructor) {
+	public void setInstructor(Instructor instructor) {
 		this.instructor = instructor;
 	}
 

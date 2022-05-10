@@ -50,6 +50,7 @@ public class LoginController {
 	@GetMapping("/register")
 	public String register(Model model) {	
 		model.addAttribute("instructor", new Instructor());
+		
 	    return "register";
 	}
 	

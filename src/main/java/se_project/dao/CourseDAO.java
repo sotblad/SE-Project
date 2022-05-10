@@ -12,6 +12,6 @@ public interface CourseDAO extends JpaRepository<Course, Integer> {
 	
 	public Course findById(int theId);
 	
-	public List<Course> findByInstructor(String name);
+	public List<Course> findByInstructorUsername(String name);
 		
 }

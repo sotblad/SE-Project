@@ -100,6 +100,9 @@ public class StudentRegistrationServiceImpl implements StudentRegistrationServic
 	public void calculateStats(int courseId) {
 		HashMap<String, Statistic> statistics = Singleton.supportedStatistics;
 		
+		if(this.findByCourseId(courseId).size() == 0)
+			return;
+		
 		for(String stat : statistics.keySet()) {
 			statistics.get(stat).execute(this.findByCourseId(courseId));
 		}
