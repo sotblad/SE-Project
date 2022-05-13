@@ -21,37 +21,19 @@ public class InstructorServiceImpl implements InstructorService {
 	public InstructorServiceImpl(InstructorDAO theInstructorRepository) {
 		instructorRepository = theInstructorRepository;
 	}
-
-	@Override
-	@Transactional
-	public Instructor findById(int theId) {
-		Instructor result = instructorRepository.findById(theId);
-				
-		if (result != null ) {
-			return result;
-		}
-		else {
-			throw new RuntimeException("Did not find instructor");
-		}
-	}
 	
 	@Override
 	@Transactional
 	public Instructor findByUsername(String theUsername) {
 		Instructor result = instructorRepository.findByUsername(theUsername);
 				
-		if (result != null ) {
-			return result;
-		}
-		else {
-			throw new RuntimeException("Did not find instructor");
-		}
+		return result;
 	}
 	
 	@Override
 	@Transactional
-	public void deleteById(int theId) {
-		instructorRepository.deleteById(theId);
+	public void deleteByUsername(String theUsername) {
+		instructorRepository.deleteByUsername(theUsername);
 	}
 	
 	@Override

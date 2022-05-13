@@ -30,7 +30,7 @@ class TestInstructorService {
 	
 	@Test
 	void testFindByIdReturnsInstructor() {
-		Instructor storedInstructor = instructorService.findById(1);
+		Instructor storedInstructor = instructorService.findByUsername("zarras");
 		Assertions.assertNotNull(storedInstructor);
 		Assertions.assertEquals("zarras", storedInstructor.getUsername());
 	}
@@ -39,20 +39,20 @@ class TestInstructorService {
 	void testSaveInstructor() {
 		Instructor newInstructor = new Instructor("Test Instructor", "testInstructor", "$2a$12$.PQuhJBs4B4amRdEc9w8gu83H0mNmkJ4Io3cVYlklMH3jwZJvWpLG", true);
 		instructorService.save(newInstructor);
-		Instructor storedInstructor = instructorService.findById(newInstructor.getId());
+		Instructor storedInstructor = instructorService.findByUsername("testInstructor");
 		Assertions.assertEquals("testInstructor", storedInstructor.getUsername());
-		instructorService.deleteById(storedInstructor.getId());
+		instructorService.deleteByUsername("testInstructor");
 	}
 	
 	@Test
 	void testDeleteInstructor() {
 		Instructor newInstructor = new Instructor("Test Instructor", "testInstructor", "$2a$12$.PQuhJBs4B4amRdEc9w8gu83H0mNmkJ4Io3cVYlklMH3jwZJvWpLG", true);
 		instructorService.save(newInstructor);
-		Instructor storedInstructor = instructorService.findById(newInstructor.getId());
+		Instructor storedInstructor = instructorService.findByUsername("testInstructor");
 		Assertions.assertEquals("testInstructor", storedInstructor.getUsername());
-		instructorService.deleteById(storedInstructor.getId());
+		instructorService.deleteByUsername("testInstructor");
 		try {
-			storedInstructor = instructorService.findById(newInstructor.getId());
+			storedInstructor = instructorService.findByUsername("testInstructor");
 		}catch (Exception e) {
 			Assertions.assertEquals("Did not find instructor", e.getMessage());
 		}

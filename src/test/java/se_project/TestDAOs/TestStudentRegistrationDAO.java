@@ -50,6 +50,6 @@ class TestStudentRegistrationDAO {
 		List<StudentRegistration> storedStudentRegistrations = studentRegistrationDAO.findByStudentId(2);
 		Assertions.assertNotNull(storedStudentRegistrations);
 		Assertions.assertEquals("stratis", storedStudentRegistrations.get(1).getName());
-		Assertions.assertEquals(2, storedStudentRegistrations.get(1).getCourseId());
+		Assertions.assertEquals(2, storedStudentRegistrations.get(1).getCourse().getId());
 	}
 }

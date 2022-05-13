@@ -4,12 +4,10 @@ import se_project.entity.Instructor;
 
 public interface InstructorService {
 	
-	public Instructor findById(int theId);
+	public Instructor findByUsername(String theUsername);
 	
 	public void save(Instructor authority);
 	
-	public Instructor findByUsername(String theUsername);
-	
-	public void deleteById(int theId);
+	public void deleteByUsername(String theUsername);
 	
 }

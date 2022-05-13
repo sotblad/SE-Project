@@ -11,6 +11,7 @@ import org.springframework.test.context.TestPropertySource;
 
 import se_project.entity.Course;
 import se_project.service.CourseService;
+import se_project.service.InstructorService;
 
 @SpringBootTest
 @TestPropertySource(
@@ -18,6 +19,9 @@ import se_project.service.CourseService;
 class TestCourseService {
 	@Autowired 
 	CourseService courseService;
+	
+	@Autowired 
+	InstructorService instructorService;
 		
 	@Test
 	void testCourseDAOJpaImplIsNotNull() {
@@ -40,7 +44,7 @@ class TestCourseService {
 	
 	@Test
 	void testSaveCourse() {
-		Course newCourse = new Course("TestCourse", "zarras", "TestSyllabus", 2018, 7, 0.0, 0.0);
+		Course newCourse = new Course("TestCourse", instructorService.findByUsername("zarras"), "TestSyllabus", 2018, 7, 0.0, 0.0);
 		courseService.save(newCourse);
 		Course storedCourse = courseService.findById(newCourse.getId());
 		Assertions.assertEquals("TestCourse", storedCourse.getName());
@@ -49,7 +53,7 @@ class TestCourseService {
 	
 	@Test
 	void testDeleteCourse() {
-		Course newCourse = new Course("TestCourse", "zarras", "TestSyllabus", 2018, 7, 0.0, 0.0);
+		Course newCourse = new Course("TestCourse", instructorService.findByUsername("zarras"), "TestSyllabus", 2018, 7, 0.0, 0.0);
 		courseService.save(newCourse);
 		Course storedCourse = courseService.findById(newCourse.getId());
 		Assertions.assertEquals("TestCourse", storedCourse.getName());
@@ -63,7 +67,7 @@ class TestCourseService {
 	
 	@Test
 	void testFindByInstructorReturnsCourse() {
-		List<Course> storedCourses = courseService.findByInstructor("tsiatouxas");
+		List<Course> storedCourses = courseService.findByInstructorUsername("tsiatouxas");
 		Assertions.assertNotNull(storedCourses);
 		Assertions.assertEquals("VHDL", storedCourses.get(0).getName());
 	}

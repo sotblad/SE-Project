@@ -15,6 +15,7 @@ import se_project.entity.Course;
 import se_project.entity.Instructor;
 import se_project.entity.StudentRegistration;
 import se_project.service.AuthoritiesService;
+import se_project.service.CourseService;
 import se_project.service.InstructorService;
 import se_project.service.StudentRegistrationService;
 
@@ -24,6 +25,9 @@ import se_project.service.StudentRegistrationService;
 class TestStudentRegistrationService {
 	@Autowired 
 	StudentRegistrationService studentRegistrationService;
+	
+	@Autowired 
+	CourseService courseService;
 		
 	@Test
 	void testStudentRegistrationDAOJpaImplIsNotNull() {
@@ -63,12 +67,12 @@ class TestStudentRegistrationService {
 		List<StudentRegistration> storedStudentRegistrations = studentRegistrationService.findByStudentId(2);
 		Assertions.assertNotNull(storedStudentRegistrations);
 		Assertions.assertEquals("stratis", storedStudentRegistrations.get(1).getName());
-		Assertions.assertEquals(2, storedStudentRegistrations.get(1).getCourseId());
+		Assertions.assertEquals(2, storedStudentRegistrations.get(1).getCourse().getId());
 	}
 	
 	@Test
 	void testSaveStudentRegistration() {
-		StudentRegistration newStudentRegistration = new StudentRegistration(100, "testStudent", 2018, 7, 1, 0.0, 0.0, 0.0);
+		StudentRegistration newStudentRegistration = new StudentRegistration(100, "testStudent", 2018, 7, courseService.findByInstructorUsername("testUsername").get(0), 0.0, 0.0, 0.0);
 		studentRegistrationService.save(newStudentRegistration);
 		StudentRegistration storedStudentRegistration = studentRegistrationService.findById(newStudentRegistration.getId());
 		Assertions.assertEquals("testStudent", storedStudentRegistration.getName());
@@ -77,7 +81,7 @@ class TestStudentRegistrationService {
 	
 	@Test
 	void testDeleteStudentRegistration() {
-		StudentRegistration newStudentRegistration = new StudentRegistration(100, "testStudent", 2018, 7, 1, 0.0, 0.0, 0.0);
+		StudentRegistration newStudentRegistration = new StudentRegistration(100, "testStudent", 2018, 7, courseService.findByInstructorUsername("testUsername").get(0), 0.0, 0.0, 0.0);
 		studentRegistrationService.save(newStudentRegistration);
 		StudentRegistration storedStudentRegistration = studentRegistrationService.findById(newStudentRegistration.getId());
 		Assertions.assertEquals("testStudent", storedStudentRegistration.getName());

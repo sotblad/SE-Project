@@ -18,8 +18,10 @@ import org.springframework.web.context.WebApplicationContext;
 import se_project.controller.CourseController;
 import se_project.controller.StudentController;
 import se_project.entity.Course;
+import se_project.entity.Instructor;
 import se_project.entity.StudentRegistration;
 import se_project.service.CourseService;
+import se_project.service.InstructorService;
 import se_project.service.StudentRegistrationService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -44,6 +46,12 @@ class TestStudentController {
 	
 	@Autowired
 	private StudentRegistrationService studentRegistrationService;
+	
+	@Autowired
+	private CourseService courseService;
+	
+	@Autowired
+	private InstructorService instructorService;
 
 	@BeforeEach
     public void setup() {
@@ -80,8 +88,12 @@ class TestStudentController {
 	
 	@WithMockUser(value = "zarras")
 	@Test 
-	void testPostStudentRegistrationReturnsPage() throws Exception {   	  
-		StudentRegistration newStudentRegistration = new StudentRegistration(100, "testStudent", 2018, 7, 1, 0.0, 0.0, 0.0);
+	void testPostStudentRegistrationReturnsPage() throws Exception {
+		if(courseService.findByInstructorUsername("testUsername").size() == 0) {
+			Course course = new Course("testName", instructorService.findByUsername("testUsername"), "testSyllabus", 2018, 1, 10, 10);
+			courseService.save(course);
+		}
+		StudentRegistration newStudentRegistration = new StudentRegistration(100, "testStudent", 2018, 7, courseService.findByInstructorUsername("testUsername").get(0), 0.0, 0.0, 0.0);
 		
 	    MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
 	    multiValueMap.add("id", Integer.toString(newStudentRegistration.getId()));
@@ -89,7 +101,14 @@ class TestStudentController {
 	    multiValueMap.add("name", newStudentRegistration.getName());
 	    multiValueMap.add("yearOfRegistration", Integer.toString(newStudentRegistration.getYearOfRegistration()));
 	    multiValueMap.add("semester", Integer.toString(newStudentRegistration.getSemester()));
-	    multiValueMap.add("courseId", Integer.toString(newStudentRegistration.getCourseId()));
+	    multiValueMap.add("course.id", Integer.toString(newStudentRegistration.getCourse().getId()));
+	    multiValueMap.add("course.name", newStudentRegistration.getCourse().getName());
+	    multiValueMap.add("course.instructor", Integer.toString(newStudentRegistration.getCourse().getInstructor().getId()));
+	    multiValueMap.add("course.syllabus", newStudentRegistration.getCourse().getSyllabus());
+	    multiValueMap.add("course.year", Integer.toString(newStudentRegistration.getCourse().getYear()));
+	    multiValueMap.add("course.semester", Integer.toString(newStudentRegistration.getCourse().getSemester()));
+	    multiValueMap.add("course.examWeight", Double.toString(newStudentRegistration.getCourse().getExamWeight()));
+	    multiValueMap.add("course.projectWeight", Double.toString(newStudentRegistration.getCourse().getProjectWeight()));
 	    multiValueMap.add("grade", Double.toString(newStudentRegistration.getGrade()));
 	    multiValueMap.add("projectGrade", Double.toString(newStudentRegistration.getProjectGrade()));
 	    multiValueMap.add("examGrade", Double.toString(newStudentRegistration.getExamGrade()));
@@ -98,7 +117,7 @@ class TestStudentController {
 			post("/postStudent").
 		    params(multiValueMap)).
 			andExpect(status().isFound()).
-			andExpect(view().name("redirect:/viewCourse?course=" + newStudentRegistration.getCourseId())
+			andExpect(view().name("redirect:/viewCourse?course=" + newStudentRegistration.getCourse().getId())
 		);
 	}
 	
@@ -111,13 +130,13 @@ class TestStudentController {
 	    	    
 	    MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
 	    multiValueMap.add("student", Integer.toString(studentRegistration.getStudentId()));
-	    multiValueMap.add("course", Integer.toString(studentRegistration.getCourseId()));
+	    multiValueMap.add("course", Integer.toString(studentRegistration.getCourse().getId()));
 	    
 		mockMvc.perform(
 			post("/removeStudent").
 		    params(multiValueMap)).
 			andExpect(status().isFound()).
-			andExpect(view().name("redirect:/viewCourse?course=" + studentRegistration.getCourseId())
+			andExpect(view().name("redirect:/viewCourse?course=" + studentRegistration.getCourse().getId())
 		);	
 	}
 	
@@ -149,7 +168,14 @@ class TestStudentController {
 	    multiValueMap.add("name", studentRegistration.getName());
 	    multiValueMap.add("yearOfRegistration", Integer.toString(studentRegistration.getYearOfRegistration()));
 	    multiValueMap.add("semester", Integer.toString(studentRegistration.getSemester()));
-	    multiValueMap.add("courseId", Integer.toString(studentRegistration.getCourseId()));
+	    multiValueMap.add("course.id", Integer.toString(studentRegistration.getCourse().getId()));
+	    multiValueMap.add("course.name", studentRegistration.getCourse().getName());
+	    multiValueMap.add("course.instructor", Integer.toString(studentRegistration.getCourse().getInstructor().getId()));
+	    multiValueMap.add("course.syllabus", studentRegistration.getCourse().getSyllabus());
+	    multiValueMap.add("course.year", Integer.toString(studentRegistration.getCourse().getYear()));
+	    multiValueMap.add("course.semester", Integer.toString(studentRegistration.getCourse().getSemester()));
+	    multiValueMap.add("course.examWeight", Double.toString(studentRegistration.getCourse().getExamWeight()));
+	    multiValueMap.add("course.projectWeight", Double.toString(studentRegistration.getCourse().getProjectWeight()));
 	    multiValueMap.add("grade", Double.toString(studentRegistration.getGrade()));
 	    multiValueMap.add("projectGrade", Double.toString(studentRegistration.getProjectGrade()));
 	    multiValueMap.add("examGrade", Double.toString(studentRegistration.getExamGrade()));
@@ -159,7 +185,7 @@ class TestStudentController {
 			post("/updateStudent").
 		    params(multiValueMap)).
 			andExpect(status().isFound()).
-			andExpect(view().name("redirect:/viewCourse?course=" + studentRegistration.getCourseId())
+			andExpect(view().name("redirect:/viewCourse?course=" + studentRegistration.getCourse().getId())
 		);	
 	}
 	
@@ -175,7 +201,7 @@ class TestStudentController {
 	    multiValueMap.add("name", studentRegistration.getName());
 	    multiValueMap.add("yearOfRegistration", Integer.toString(studentRegistration.getYearOfRegistration()));
 	    multiValueMap.add("semester", Integer.toString(studentRegistration.getSemester()));
-	    multiValueMap.add("courseId", Integer.toString(studentRegistration.getCourseId()));
+	    multiValueMap.add("courseId", Integer.toString(studentRegistration.getCourse().getId()));
 	    multiValueMap.add("grade", Double.toString(studentRegistration.getGrade()));
 	    multiValueMap.add("projectGrade", Double.toString(studentRegistration.getProjectGrade()));
 	    multiValueMap.add("examGrade", Double.toString(studentRegistration.getExamGrade()));

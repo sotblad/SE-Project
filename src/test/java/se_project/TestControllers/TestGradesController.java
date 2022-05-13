@@ -94,7 +94,14 @@ class TestGradesController {
 	    multiValueMap.add("name", studentRegistration.getName());
 	    multiValueMap.add("yearOfRegistration", Integer.toString(studentRegistration.getYearOfRegistration()));
 	    multiValueMap.add("semester", Integer.toString(studentRegistration.getSemester()));
-	    multiValueMap.add("courseId", Integer.toString(studentRegistration.getCourseId()));
+	    multiValueMap.add("course.id", Integer.toString(studentRegistration.getCourse().getId()));
+	    multiValueMap.add("course.name", studentRegistration.getCourse().getName());
+	    multiValueMap.add("course.instructor", Integer.toString(studentRegistration.getCourse().getInstructor().getId()));
+	    multiValueMap.add("course.syllabus", studentRegistration.getCourse().getSyllabus());
+	    multiValueMap.add("course.year", Integer.toString(studentRegistration.getCourse().getYear()));
+	    multiValueMap.add("course.semester", Integer.toString(studentRegistration.getCourse().getSemester()));
+	    multiValueMap.add("course.examWeight", Double.toString(studentRegistration.getCourse().getExamWeight()));
+	    multiValueMap.add("course.projectWeight", Double.toString(studentRegistration.getCourse().getProjectWeight()));
 	    multiValueMap.add("grade", Double.toString(studentRegistration.getGrade()));
 	    multiValueMap.add("projectGrade", Double.toString(studentRegistration.getProjectGrade()));
 	    multiValueMap.add("examGrade", Double.toString(studentRegistration.getExamGrade()));
@@ -103,7 +110,7 @@ class TestGradesController {
 			post("/updateGrades").
 		    params(multiValueMap)).
 			andExpect(status().isFound()).
-			andExpect(view().name("redirect:/viewCourse?course=" + studentRegistration.getCourseId())
+			andExpect(view().name("redirect:/viewCourse?course=" + studentRegistration.getCourse().getId())
 		);	
 	}
 	
@@ -132,7 +139,11 @@ class TestGradesController {
 		MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
 		multiValueMap.add("id", Integer.toString(course.getId()));
 	    multiValueMap.add("name", course.getName());
-	    multiValueMap.add("instructor", course.getInstructor());
+	    multiValueMap.add("instructor.id", Integer.toString(course.getInstructor().getId()));
+	    multiValueMap.add("instructor.fullname", course.getInstructor().getFullname());
+	    multiValueMap.add("instructor.username", course.getInstructor().getUsername());
+	    multiValueMap.add("instructor.password", course.getInstructor().getPassword());
+	    multiValueMap.add("instructor.enabled", Boolean.toString(course.getInstructor().isEnabled()));
 	    multiValueMap.add("syllabus", course.getSyllabus());
 	    multiValueMap.add("year", Integer.toString(course.getYear()));
 	    multiValueMap.add("semester", Integer.toString(course.getSemester()));

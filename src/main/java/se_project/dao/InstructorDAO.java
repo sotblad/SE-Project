@@ -11,5 +11,7 @@ public interface InstructorDAO extends JpaRepository<Instructor, Integer> {
 	public Instructor findById(int theId);
 	
 	public Instructor findByUsername(String theUsername);
+	
+	public void deleteByUsername(String theUsername);
 		
 }

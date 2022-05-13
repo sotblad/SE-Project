@@ -17,7 +17,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import se_project.controller.CourseController;
 import se_project.entity.Course;
+import se_project.entity.Instructor;
 import se_project.service.CourseService;
+import se_project.service.InstructorService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -40,6 +42,9 @@ class TestCourseController {
 	CourseController courseController;
 	
 	@Autowired
+	InstructorService instructorService;
+	
+	@Autowired
 	private CourseService courseService;
 
 	@BeforeEach
@@ -47,6 +52,10 @@ class TestCourseController {
 		mockMvc = MockMvcBuilders
           .webAppContextSetup(context)
           .build();
+		if(instructorService.findByUsername("testUsername") == null) {
+			Instructor instructor = new Instructor("Test Instructor", "testInstructor", "$2a$12$.PQuhJBs4B4amRdEc9w8gu83H0mNmkJ4Io3cVYlklMH3jwZJvWpLG", true);
+			instructorService.save(instructor);
+		}
     }
 	
 	@Test
@@ -84,12 +93,17 @@ class TestCourseController {
 	@WithMockUser(value = "zarras")
 	@Test 
 	void testPostCourseReturnsPage() throws Exception {
-	    Course course = new Course("testName", "testInstructor", "testSyllabus", 2018, 1, 10, 10);
+		
+	    Course course = new Course("testName", instructorService.findByUsername("testUsername"), "testSyllabus", 2018, 1, 10, 10);
 	    	    
 	    MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
 	    multiValueMap.add("id", Integer.toString(course.getId()));
 	    multiValueMap.add("name", course.getName());
-	    multiValueMap.add("instructor", course.getInstructor());
+	    multiValueMap.add("instructor.id", Integer.toString(course.getInstructor().getId()));
+	    multiValueMap.add("instructor.fullname", course.getInstructor().getFullname());
+	    multiValueMap.add("instructor.username", course.getInstructor().getUsername());
+	    multiValueMap.add("instructor.password", course.getInstructor().getPassword());
+	    multiValueMap.add("instructor.enabled", Boolean.toString(course.getInstructor().isEnabled()));
 	    multiValueMap.add("syllabus", course.getSyllabus());
 	    multiValueMap.add("year", Integer.toString(course.getYear()));
 	    multiValueMap.add("semester", Integer.toString(course.getSemester()));
@@ -107,11 +121,13 @@ class TestCourseController {
 	@WithMockUser(value = "zarras")
 	@Test 
 	void testDeleteCourseReturnsPage() throws Exception {
+		Course course = new Course("testName", instructorService.findByUsername("testUsername"), "testSyllabus", 2018, 1, 10, 10);
+		courseService.save(course);
 		List<Course> courses = courseService.findAll();
-	    int course = courses.get(courses.size()-1).getId();
+	    int courseId = courses.get(courses.size()-1).getId();
 	    	    
 	    MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-	    multiValueMap.add("course", Integer.toString(course));
+	    multiValueMap.add("course", Integer.toString(courseId));
 	    
 		mockMvc.perform(
 			post("/deleteCourse").

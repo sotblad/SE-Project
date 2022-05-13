@@ -33,7 +33,7 @@ class TestCourseDAO {
 	
 	@Test
 	void testFindByInstructorReturnsCourse() {
-		List<Course> storedCourses = courseDAO.findByInstructor("tsiatouxas");
+		List<Course> storedCourses = courseDAO.findByInstructorUsername("tsiatouxas");
 		Assertions.assertNotNull(storedCourses);
 		Assertions.assertEquals("VHDL", storedCourses.get(0).getName());
 	}

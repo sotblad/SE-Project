@@ -17,6 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import se_project.controller.LoginController;
 import se_project.entity.Instructor;
+import se_project.service.InstructorService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -36,6 +37,9 @@ class TestLoginController {
 	
 	@Autowired
 	LoginController loginController;
+	
+	@Autowired 
+	InstructorService instructorService;
 
 	@BeforeEach
     public void setup() {
@@ -96,12 +100,13 @@ class TestLoginController {
 	    multiValueMap.add("username", testInstructor.getUsername());
 	    multiValueMap.add("password", testInstructor.getPassword());
 	    multiValueMap.add("enabled", Boolean.toString(testInstructor.isEnabled()));
+	    instructorService.deleteByUsername("testUsername");
 	    
 		mockMvc.perform(
 			post("/postRegister").
 			params(multiValueMap)).
 			andExpect(status().isFound()).
 			andExpect(view().name("redirect:/login")
-		);		
+		);
 	}
 }
