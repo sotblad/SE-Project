@@ -59,7 +59,6 @@ public class CourseController {
 	
 	@PostMapping("/postCourse")
 	public String postCourse(@ModelAttribute("course")Course course, Model model) {
-		System.out.println(course);
 		courseService.save(course);
 		
 	    return "redirect:myCourses";

@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import se_project.controller.Singleton;
 
 @SpringBootApplication
-public class SecureEmployeeApplication {
+public class SecureInstructorApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(SecureEmployeeApplication.class, args);
+		SpringApplication.run(SecureInstructorApplication.class, args);
 		Singleton.getInstance();
 	}
 }

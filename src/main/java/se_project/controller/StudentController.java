@@ -79,6 +79,7 @@ public class StudentController {
 			studentRegistrationService.save(student);
 			return "redirect:/viewCourse?course=" + student.getCourse().getId(); 
 		}
+		studentRegistrationService.save(student);
 		
 		List<StudentRegistration> result = studentRegistrationService.findByStudentId(student.getStudentId());
 		

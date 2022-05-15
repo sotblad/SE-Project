@@ -126,7 +126,6 @@ class TestStudentController {
 	void testDeleteStudentRegistrationReturnsPage() throws Exception {
 		List<StudentRegistration> studentRegistrations = studentRegistrationService.findAll();
 	    StudentRegistration studentRegistration = studentRegistrations.get(studentRegistrations.size()-1);
-	    System.out.println(studentRegistration);
 	    	    
 	    MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
 	    multiValueMap.add("student", Integer.toString(studentRegistration.getStudentId()));
