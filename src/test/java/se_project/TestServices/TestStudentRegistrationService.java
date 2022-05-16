@@ -57,7 +57,7 @@ class TestStudentRegistrationService {
 	
 	@Test
 	void testFindByStudentIdAndCourseIdReturnsStudentRegistration() {
-		StudentRegistration storedStudentRegistrations = studentRegistrationService.findByStudentIdAndCourseId(3,1);
+		StudentRegistration storedStudentRegistrations = studentRegistrationService.findByStudentIdAndCourseId(3,3);
 		Assertions.assertNotNull(storedStudentRegistrations);
 		Assertions.assertEquals("jim", storedStudentRegistrations.getName());
 	}
@@ -67,7 +67,7 @@ class TestStudentRegistrationService {
 		List<StudentRegistration> storedStudentRegistrations = studentRegistrationService.findByStudentId(2);
 		Assertions.assertNotNull(storedStudentRegistrations);
 		Assertions.assertEquals("stratis", storedStudentRegistrations.get(1).getName());
-		Assertions.assertEquals(2, storedStudentRegistrations.get(1).getCourse().getId());
+		Assertions.assertEquals(3, storedStudentRegistrations.get(1).getCourse().getId());
 	}
 	
 	@Test

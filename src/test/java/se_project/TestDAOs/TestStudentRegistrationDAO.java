@@ -40,7 +40,7 @@ class TestStudentRegistrationDAO {
 	
 	@Test
 	void testFindByStudentIdAndCourseIdReturnsStudentRegistration() {
-		StudentRegistration storedStudentRegistrations = studentRegistrationDAO.findByStudentIdAndCourseId(3,1);
+		StudentRegistration storedStudentRegistrations = studentRegistrationDAO.findByStudentIdAndCourseId(3,3);
 		Assertions.assertNotNull(storedStudentRegistrations);
 		Assertions.assertEquals("jim", storedStudentRegistrations.getName());
 	}
@@ -50,6 +50,6 @@ class TestStudentRegistrationDAO {
 		List<StudentRegistration> storedStudentRegistrations = studentRegistrationDAO.findByStudentId(2);
 		Assertions.assertNotNull(storedStudentRegistrations);
 		Assertions.assertEquals("stratis", storedStudentRegistrations.get(1).getName());
-		Assertions.assertEquals(2, storedStudentRegistrations.get(1).getCourse().getId());
+		Assertions.assertEquals(3, storedStudentRegistrations.get(1).getCourse().getId());
 	}
 }

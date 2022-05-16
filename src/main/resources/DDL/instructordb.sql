@@ -16,8 +16,8 @@ CREATE TABLE `instructors` (
 );
 
 INSERT INTO `instructors` VALUES 
-    (1, "zarras", "zarras", "$2a$12$27Lk9T4N8ODnSRgdFyIqweGfjx0vB8iVGbBkgaGXJloFY5ojg3kK2", true),
-    (2, "tsiatouxas", "tsiatouxas", "$2a$12$rg7hDGYsOqWkSjb3zGBjcuBWqzsUNIX0K.mjcbdLn.ZO3irBLXlq.", true);
+    (1, "zarras", "zarras", "$2a$12$27Lk9T4N8ODnSRgdFyIqweGfjx0vB8iVGbBkgaGXJloFY5ojg3kK2", true), #password: test
+    (2, "tsiatouxas", "tsiatouxas", "$2a$12$rg7hDGYsOqWkSjb3zGBjcuBWqzsUNIX0K.mjcbdLn.ZO3irBLXlq.", true); #password: tost
     
 CREATE TABLE `authorities` (
   `username` VARCHAR(50) NOT NULL,
@@ -45,8 +45,9 @@ CREATE TABLE `courses` (
 );
 
 INSERT INTO `courses` VALUES 
-    (1,"SE", 1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 2022, 4, DEFAULT, DEFAULT),
-    (2,"VHDL", 2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", 2019, 4, DEFAULT, DEFAULT);
+    (1,"SE", 1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 2022, 8, DEFAULT, DEFAULT),
+    (2,"SoftDev2", 1, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 2022, 7, DEFAULT, DEFAULT),
+    (3,"VHDL", 2, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", 2019, 4, DEFAULT, DEFAULT);
 
 CREATE TABLE `student_registrations` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -63,7 +64,10 @@ CREATE TABLE `student_registrations` (
 );
 
 INSERT INTO `student_registrations` VALUES 
-    (1, 1, 'sotblad', 2018, 7, 1, default, default, default),
-    (2, 2, 'stratis', 2018, 6, 1, default, default, default),
-    (3, 2, 'stratis', 2018, 7, 2, default, default, default),
-    (4, 3, 'jim', 2018, 7, 1, default, default, default);
+    (1, 1, 'sotblad', 2018, 8, 1, default, default, default),
+    (2, 2, 'stratis', 2018, 8, 1, default, default, default),
+    (3, 2, 'stratis', 2018, 8, 3, default, default, default),
+    (4, 3, 'jim', 2018, 8, 3, default, default, default),
+    (5, 1, 'sotblad', 2018, 8, 2, default, default, default),
+    (6, 2, 'stratis', 2018, 8, 2, default, default, default),
+    (7, 3, 'jim', 2018, 8, 2, default, default, default);

@@ -200,7 +200,14 @@ class TestStudentController {
 	    multiValueMap.add("name", studentRegistration.getName());
 	    multiValueMap.add("yearOfRegistration", Integer.toString(studentRegistration.getYearOfRegistration()));
 	    multiValueMap.add("semester", Integer.toString(studentRegistration.getSemester()));
-	    multiValueMap.add("courseId", Integer.toString(studentRegistration.getCourse().getId()));
+	    multiValueMap.add("course.id", Integer.toString(studentRegistration.getCourse().getId()));
+	    multiValueMap.add("course.name", studentRegistration.getCourse().getName());
+	    multiValueMap.add("course.instructor", Integer.toString(studentRegistration.getCourse().getInstructor().getId()));
+	    multiValueMap.add("course.syllabus", studentRegistration.getCourse().getSyllabus());
+	    multiValueMap.add("course.year", Integer.toString(studentRegistration.getCourse().getYear()));
+	    multiValueMap.add("course.semester", Integer.toString(studentRegistration.getCourse().getSemester()));
+	    multiValueMap.add("course.examWeight", Double.toString(studentRegistration.getCourse().getExamWeight()));
+	    multiValueMap.add("course.projectWeight", Double.toString(studentRegistration.getCourse().getProjectWeight()));
 	    multiValueMap.add("grade", Double.toString(studentRegistration.getGrade()));
 	    multiValueMap.add("projectGrade", Double.toString(studentRegistration.getProjectGrade()));
 	    multiValueMap.add("examGrade", Double.toString(studentRegistration.getExamGrade()));
